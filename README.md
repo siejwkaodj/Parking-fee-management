@@ -6,6 +6,6 @@
 
 ### 사용된 기술 스택
 - c
-- AWS Ec2 인스턴스
+- AWS Ec2
 - Node.js
 - SQLite
