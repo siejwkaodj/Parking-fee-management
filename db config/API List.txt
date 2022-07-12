@@ -1,0 +1,14 @@
+0.1 Test API
+[GET]   /park/test
+
+1.0 Car Parking Start API
+[POST]   /park/:cardIdx
+
+1.1 Current Parking Car Search API
+[GET]   /park
+
+1.2 Current Parking Car Search with cardIdx API
+[GET]   /park/:cardIdx
+
+1.3 Parking Fee Charge API
+[Patch] /park/:cardIdx
