@@ -21,5 +21,5 @@ module.exports = function(app){
     app.patch('/park/:cardIdx', park.patchCharge);
 
     // 2.0 DB 조회 API
-    app.get('/park/db', park.getDB);
+    app.get('/db', park.getDB);
 };
