@@ -19,4 +19,7 @@ module.exports = function(app){
     // 1.3 Parking Fee Charge API
     // [Patch] /park/:cardIdx
     app.patch('/park/:cardIdx', park.patchCharge);
+
+    // 2.0 DB 조회 API
+    app.get('/park/db', park.getDB);
 };

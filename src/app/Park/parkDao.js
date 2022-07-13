@@ -78,11 +78,17 @@ async function updateEndedAt(connection, idx){
     return updateEndedAtRows;
 }
 
+async function selectDB(connection){
+    const selectDBQuery = `SELECT * FROM Parking;`
+    const [selectDBRows] = await connection.query(selectDBQuery);
+    return selectDBRows;
+}
   module.exports = {
     createParking,
     selectParking,
     selectParkingCar,
     updateParkingCharge,
     selectRecentParking,
-    updateEndedAt
+    updateEndedAt,
+    selectDB
   };

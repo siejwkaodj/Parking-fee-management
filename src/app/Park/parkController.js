@@ -67,3 +67,13 @@ exports.patchCharge = async function(req, res){
     const patchChargeResult = await parkService.editParkCharge(cardIdx);
     return res.send(patchChargeResult);
 }
+
+/**
+ * API No. 2.0
+ * API Name: DB 조회 API
+ * [GET] /park/DB
+ */
+exports.getDB = async function(req, res){
+    const getDBResult = await parkProvider.readDB();
+    return res.send(getDBResult);
+}
