@@ -21,10 +21,8 @@ exports.addParking = async function(cardIdx){
         // cardIdx로 차 새로 추가하는 부분
         const addParkingResult = await parkDao.createParking(connection, cardIdx);
         // 새로 추가한 차 idx 받아오는 부분 - TODO
-        const addedParkingIdx = await parkProvider.recentParking;
-        console.log(addedParkingIdx);
-        return;
-        return response(baseResponse.SUCCESS, addParkingResult);
+        const addedIdx = addParkingResult.insertId;
+        return response(baseResponse.SUCCESS, {'carName': cardIdx, 'added Idx':addedIdx});
     }catch(err){
         logger.error(`App - addParking Service error\n: ${err.message}`);
         return errResponse(baseResponse.DB_ERROR);
@@ -51,14 +49,19 @@ exports.editParkCharge = async function(cardIdx){
         }
         // 요금계산 로직
         // console.log(checkParkingCarResult);
-        // 요금계산 전 endedAt 시간 다시 지정해주는 로직 필요
+        // 요금계산 전 endedAt 갱신
         const idx = checkParkingCarResult.result[0].idx;
+        const updateEndedAtResult = await parkDao.updateEndedAt(connection, idx);
+
         const endedAt = checkParkingCarResult.result[0].endedAt;
         const createdAt = checkParkingCarResult.result[0].createdAt;
-        const fee = 1000 + (endedAt * 1 - createdAt * 1) / 600;
+        let time = (endedAt * 1 - createdAt * 1) / 60000;
+        time = Math.ceil(time);
+        // console.log(endedAt*1, createdAt*1, time);
+        const fee = 1000 + time * 100;
         const chargeParams = [fee, idx];
         const editParkChargeResult = await parkDao.updateParkingCharge(connection, chargeParams);
-        return response(baseResponse.SUCCESS, {'idx':idx, 'cardIdx':cardIdx, 'fee':fee});
+        return response(baseResponse.SUCCESS, {'idx':idx, 'cardIdx':cardIdx, 'time':time, 'fee':fee});
     }catch(err){
         logger.error(`App - addParking Service error\n: ${err.message}`);
         return errResponse(baseResponse.DB_ERROR);

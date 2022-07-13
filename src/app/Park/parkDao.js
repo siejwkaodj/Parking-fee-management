@@ -68,10 +68,21 @@ async function selectRecentParking(connection){
     return selectRecentParkingRows;
 }
 
+async function updateEndedAt(connection, idx){
+    const updateEndedAtQuery = `
+        UPDATE Parking
+        SET endedAt = now()
+        WHERE idx = ?;
+    `
+    const [updateEndedAtRows] = await connection.query(updateEndedAtQuery, idx);
+    return updateEndedAtRows;
+}
+
   module.exports = {
     createParking,
     selectParking,
     selectParkingCar,
     updateParkingCharge,
-    selectRecentParking
+    selectRecentParking,
+    updateEndedAt
   };

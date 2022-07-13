@@ -2,7 +2,6 @@ keys/*
 Parking.vuerd.json
 .idea/*
 node_modules/*
-package-lock.json
 log/*
 .DS_Store
 database.js

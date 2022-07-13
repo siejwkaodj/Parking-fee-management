@@ -24,7 +24,6 @@ exports.postParking = async function(req, res){
         return res.send(errResponse(baseResponse.PARKING_CARDIDX_LENGTH));
     }
     const postParkingResult = await parkService.addParking(cardIdx);
-    console.log(postParkingResult);
     return res.send(postParkingResult);
 }
 
