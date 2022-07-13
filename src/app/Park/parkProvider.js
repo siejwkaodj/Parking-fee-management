@@ -47,3 +47,9 @@ exports.checkParkingCar = async function(cardIdx){
         connection.release();
     }
 }
+
+exports.recentParking = async function(){
+    const connection = await pool.getConnection(async (conn) => conn);
+    const recentParkingResult = await parkDao.selectRecentParking(connection);
+    return recentParkingResult;
+}

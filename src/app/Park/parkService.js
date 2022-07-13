@@ -13,8 +13,18 @@ const parkDao = require("./parkDao");
 exports.addParking = async function(cardIdx){
     const connection = await pool.getConnection(async (conn) => conn);
     try{
+        // validation - 이미 등록되고 자리에 있는 차가 있는 경우
+        const checkParkingCarResult = await parkProvider.checkParkingCar(cardIdx);
+        if(checkParkingCarResult.isSuccess){
+        return errResponse(baseResponse.PARKING_REDUNDANT_CARDIDX);
+    }
+        // cardIdx로 차 새로 추가하는 부분
         const addParkingResult = await parkDao.createParking(connection, cardIdx);
-        return response(addParkingResult);
+        // 새로 추가한 차 idx 받아오는 부분 - TODO
+        const addedParkingIdx = await parkProvider.recentParking;
+        console.log(addedParkingIdx);
+        return;
+        return response(baseResponse.SUCCESS, addParkingResult);
     }catch(err){
         logger.error(`App - addParking Service error\n: ${err.message}`);
         return errResponse(baseResponse.DB_ERROR);

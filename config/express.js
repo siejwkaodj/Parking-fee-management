@@ -9,7 +9,6 @@ module.exports = function () {
     app.use(express.urlencoded({extended: true}));
     app.use(methodOverride());
     app.use(cors());
-    // app.use(express.static(process.cwd() + '/public'));
     
     require('../src/app/Park/parkRoute')(app);
     return app;

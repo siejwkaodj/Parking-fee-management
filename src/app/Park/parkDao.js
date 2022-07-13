@@ -8,7 +8,7 @@ async function createParking(connection, cardIdx){
         INSERT INTO Parking (carName)
         VALUES (?);
     `;
-    const parkingRows = await connection.query(createParkingQuery, cardIdx);
+    const [parkingRows] = await connection.query(createParkingQuery, cardIdx);
     return parkingRows;
 }
 
@@ -56,10 +56,22 @@ async function updateParkingCharge(connection, chargeParams){
     return updateParkingChargeRows;
 }
 
+// 최근에 추가한 차 createdAt순으로 내림차순 정렬하는 API
+async function selectRecentParking(connection){
+    const selectRecentParkingQuery = `
+        SELECT idx, fee, carName, endedAt, createdAt
+        FROM Parking
+        WHERE fee = 0
+        ORDER BY createdAt DESC;
+    `
+    const [selectRecentParkingRows] = await connection.query(selectRecentParkingQuery);
+    return selectRecentParkingRows;
+}
 
   module.exports = {
     createParking,
     selectParking,
     selectParkingCar,
-    updateParkingCharge
+    updateParkingCharge,
+    selectRecentParking
   };
