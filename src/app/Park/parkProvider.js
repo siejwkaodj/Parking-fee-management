@@ -52,12 +52,12 @@ exports.recentParking = async function(){
     const connection = await pool.getConnection(async (conn) => conn);
     const recentParkingResult = await parkDao.selectRecentParking(connection);
     connection.release();
-    return recentParkingResult;
+    return response(baseResponse.SUCCESS, recentParkingResult);
 }
 
 exports.readDB = async function(){
     const connection = await pool.getConnection(async (conn) => conn);
     const DBResult = await parkDao.selectDB(connection);
     connection.release();
-    return response(DBResult);
+    return response(baseResponse.SUCCESS, DBResult);
 }
