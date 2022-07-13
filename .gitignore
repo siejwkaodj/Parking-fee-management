@@ -1,8 +1,5 @@
-keys
-key-server-1.pem
-key-server-1.ppk
+keys/*
 Parking.vuerd.json
-sqlite-amalgamation-3390000
 .idea/*
 node_modules/*
 package-lock.json

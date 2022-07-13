@@ -51,6 +51,7 @@ exports.editParkCharge = async function(cardIdx){
         }
         // 요금계산 로직
         // console.log(checkParkingCarResult);
+        // 요금계산 전 endedAt 시간 다시 지정해주는 로직 필요
         const idx = checkParkingCarResult.result[0].idx;
         const endedAt = checkParkingCarResult.result[0].endedAt;
         const createdAt = checkParkingCarResult.result[0].createdAt;
