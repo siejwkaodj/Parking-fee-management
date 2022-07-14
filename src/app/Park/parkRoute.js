@@ -6,7 +6,7 @@ module.exports = function(app){
 
     // 1.0 Car Parking Start API
     // [POST]   /park/:cardIdx
-    app.post('/park/:cardIdx', park.postParking);
+    app.get('/park/:cardIdx', park.postParking);
     
     // 1.1 Current Parking Car Search API
     // [GET]   /park
@@ -14,11 +14,11 @@ module.exports = function(app){
 
     // 1.2 Current Parking Car Search with cardIdx API
     // [GET]   /park/:cardIdx
-    app.get('/park/:cardIdx', park.getParkingCar);
+    // app.get('/park/:cardIdx', park.getParkingCar);
 
     // 1.3 Parking Fee Charge API
     // [Patch] /park/:cardIdx
-    app.patch('/park/:cardIdx', park.patchCharge);
+    app.get('/park/charge/:cardIdx', park.patchCharge);
 
     // 2.0 DB 조회 API
     app.get('/db', park.getDB);
