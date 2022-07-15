@@ -39,7 +39,7 @@ exports.addParking = async function(cardIdx){
 exports.editParkCharge = async function(cardIdx){
     const connection = await pool.getConnection(async (conn) => conn);
     try{
-        const checkParkingCarResult = await parkProvider.checkParkingCar(cardIdx);
+        let checkParkingCarResult = await parkProvider.checkParkingCar(cardIdx);
         // 차량 존재하지 않을때
         if(!checkParkingCarResult.isSuccess){
             return errResponse(baseResponse.PARKING_NO_CARDIDX_FOUND);
@@ -47,19 +47,20 @@ exports.editParkCharge = async function(cardIdx){
             // 요금 없고 등록만 된 차량 2대 이상일때
             return errResponse(baseResponse.PARKING_REDUNDANT_CARDIDX);
         }
-        // 요금계산 로직
-        // console.log(checkParkingCarResult);
-        // 요금계산 전 endedAt 갱신
+        // 요금계산 전 endedAt 갱신 
         const idx = checkParkingCarResult.result[0].idx;
         const updateEndedAtResult = await parkDao.updateEndedAt(connection, idx);
-
+        checkParkingCarResult = await parkProvider.checkParkingCar(cardIdx);
+        
         const endedAt = checkParkingCarResult.result[0].endedAt;
         const createdAt = checkParkingCarResult.result[0].createdAt;
         let time = (endedAt * 1 - createdAt * 1) / 60000;
         time = Math.ceil(time);
-        // console.log(endedAt*1, createdAt*1, time);
+        // 요금계산 로직
         const fee = 1000 + time * 100;
         const chargeParams = [fee, idx];
+        
+        // 정산된 요금 입력 로직
         const editParkChargeResult = await parkDao.updateParkingCharge(connection, chargeParams);
         return response(baseResponse.SUCCESS, {'idx':idx, 'cardIdx':cardIdx, 'time':time, 'fee':fee});
     }catch(err){

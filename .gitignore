@@ -6,3 +6,4 @@ log/*
 .DS_Store
 database.js
 web/*
+Arduino/*
